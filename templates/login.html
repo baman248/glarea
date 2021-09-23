@@ -1,0 +1,15 @@
+{% extends 'templates/base.html' %}
+{% block body %}
+{% for message in messages %}
+    <p>{{message}}</p>
+{% endfor %}
+
+<form method="POST" action="{% url 'staff:login' %}">
+    {% csrf_token %}
+    <label for="username">Username</label>
+    <input type="text" name="username" id="username">
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password">
+    <input type="submit">
+</form>
+{% endblock body %}

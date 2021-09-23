@@ -1,0 +1,80 @@
+{% extends 'templates/base.html' %}
+
+{% block header %}
+<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+
+  <script
+  src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+  crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js" integrity="sha512-rMGGF4wg1R73ehtnxXBt5mbUfN9JUJwbk21KMlnLZDJh7BkPmeovBuddZCENJddHYYMkCh9hPFnPmS9sspki8g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css" integrity="sha512-yVvxUQV0QESBt1SyZbNJMAwyKvFTLMyXSyBHDO4BG5t7k/Lw34tyqlSDlKIrIENIzCl+RVUNjmCPG+V/GMesRw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/detail_table.css' %}" />
+
+
+{% endblock header %}
+
+{% block body %}
+<h1 style="margin: 5px auto;">Medicine Details</h1>
+{% if medicine %}
+    <table class="content-table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>{{medicine.name}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Stock (Las Pinas)</td>
+            <td>{{medicine.las_pinas_stock}}</td>
+        </tr>
+        <tr>
+            <td>Stock (Munti)</td>
+            <td>{{medicine.monti_stock}}</td>
+        </tr>
+        <tr>
+            <td>Price (PHP) </td>
+            <td>{{medicine.price_peso}}</td>
+        </tr>
+        <tr>
+            <td>Price (USD) </td>
+            <td>{{medicine.price_usd}}</td>
+        </tr>
+        <tr>
+            <td>Price for Dr. </td>
+            <td>{{medicine.price_dr}}</td>
+        </tr>
+        <tr>
+            <td>India Code</td>
+            <td>{{medicine.india_code}}</td>
+        </tr>
+
+
+        
+
+        </tbody>
+    </table>
+    {% if not order.payment_done and order.delivery_done %}
+    <h2>Second form</h2>
+    {% endif %}
+
+{% else %}
+<p>Request order does not exist.</p>
+{% endif %}
+
+{% endblock body %}
+
+{% block scripts %}
+<script type="text/javascript">
+    $(".chosen").chosen();
+
+</script>
+
+{% endblock scripts %}

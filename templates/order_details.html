@@ -1,0 +1,152 @@
+{% extends 'templates/base.html' %}
+
+{% block header %}
+<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+
+  <script
+  src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+  crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js" integrity="sha512-rMGGF4wg1R73ehtnxXBt5mbUfN9JUJwbk21KMlnLZDJh7BkPmeovBuddZCENJddHYYMkCh9hPFnPmS9sspki8g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css" integrity="sha512-yVvxUQV0QESBt1SyZbNJMAwyKvFTLMyXSyBHDO4BG5t7k/Lw34tyqlSDlKIrIENIzCl+RVUNjmCPG+V/GMesRw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/form.css' %}">
+  <link rel="stylesheet" href="{% static 'css/detail_table.css' %}">
+{% endblock header %}
+
+{% block body %}
+<h1 style="margin: 5px auto;">Order Details</h1>
+{% if order %}
+<table class="content-table">
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Medicine</td>
+        <td>{{order.medicine}}</td>
+      </tr>
+      <tr class="active-row">
+        <td>Delivery</td>
+        <td>
+            {% if order.delivery_done%}
+            Completed
+            {% else %}
+            Pending
+            {% endif %}
+        </td>
+      </tr>
+      {% if order.delivery_done %}
+      <tr>
+        <td>Delivery Date</td>
+        <td>{{order.delivery_date}}</td>
+      </tr>
+      {% endif %}
+        <td>Payment</td>
+        <td>
+            {% if order.payment_done%}
+            Completed
+            {% else %}
+            Pending
+            {% endif %}
+        </td>
+      
+      {% if order.payment_done %}
+      <tr>
+        <td>Payment Date</td>
+        <td>{{order.payment_date}}</td>
+      </tr>
+      <tr>
+        <td>Bank Account</td>
+        <td>{{order.bank}}</td>
+      </tr>
+      {% endif %}
+      <tr>
+        <td>Quantity</td>
+        <td>
+            {{order.quantity}}
+        </td>
+      </tr>
+      <tr>
+        <td>Customer</td>
+        <td>
+            {{order.customer}}
+        </td>
+      </tr>
+      <tr>
+        <td>Shipping Mode</td>
+        <td>
+            {{order.shipping_mode}}
+        </td>
+      </tr>
+      <tr>
+        <td>Customer</td>
+        <td>
+            {{order.customer}}
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+{% if not order.payment_done and order.delivery_done %}
+<h2>Second form</h2>
+{% endif %}
+
+{% if not order.payment_done %}
+<section class="outer_container">
+    <div class="container">
+        <form action="{% url 'store:order_details' 1%}" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="payment_date">Payment Date</label>
+                <input type="date" name="payment_date" id="payment_date">
+                <input type="hidden" name="form_type" value="payment">
+        
+            </div>
+            <input class="submit_button_small" type="submit" value="Payment Done">
+        
+        </form>
+
+    </div>
+</section>
+{% endif %}
+
+{% if not order.delivery_done %}
+<section class="outer_container">
+    <div class="container">
+        <form action="{% url 'store:order_details' 1 %}" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="delivery_date">Delivery Date</label>
+                <input type="date" name="delivery_date" id="delivery_date">
+                <input type="hidden" name="form_type" value="delivery">
+        
+            </div>
+            <input class="submit_button_small" type="submit" value="Delivery Done">
+        
+        </form>
+
+    </div>
+</section>
+{% endif %}
+{% else %}
+<p>Request order does not exist.</p>
+{% endif %}
+
+{% endblock body %}
+
+{% block scripts %}
+<script type="text/javascript">
+    $(".chosen").chosen();
+
+</script>
+
+{% endblock scripts %}

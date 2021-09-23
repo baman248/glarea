@@ -1,0 +1,11 @@
+{% extends 'templates/base.html' %}
+
+{% block body %}
+<h1>Create shipping Mode</h1>
+
+<form action="{% url 'store:create_shipping_mode' %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit">
+</form>
+{% endblock body %}

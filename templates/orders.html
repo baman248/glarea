@@ -1,0 +1,55 @@
+{% extends 'templates/base.html' %}
+
+{% block header %}
+{% load static %}
+    <link rel="stylesheet" href="{% static 'css/order_table.css' %}">
+{% endblock header %}
+{% block body %}
+<h1>Orders</h1>
+<a href="{% url 'store:add_order' %}">Add Order</a>
+
+<h2>Recent Orders</h2>
+<hr>
+{% if all_orders %}
+<table class="order_table">
+    <thead>
+        <tr id="header">
+            <th>Medicine</th>
+            <th>Quantity</th>
+            <th>Payment</th>
+            <th>Dilevery</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in all_orders %}
+        <tr  onclick="window.location.href='http://localhost:8000/store/order_details/{{order.id}}';">
+            <th>{{order.medicine}}</th>
+            <th>{{order.quantity}}</th>
+            <th>
+                {% if order.payment_done %}
+                completed
+                {% else %}
+                pending
+                {% endif %}
+            </th>
+            <th>
+                {% if order.delivery_done %}
+                completed
+                {% else %}
+                pending
+                {% endif %}
+            </th>
+            <th>{{order.date}}</th>
+        </tr>
+        {% endfor %}
+
+    </tbody>
+    
+
+</table>
+{% else %}
+<p>No orders to show.</p>
+{% endif %}
+{% endblock body %}
+

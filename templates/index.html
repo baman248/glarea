@@ -1,0 +1,9 @@
+{% extends 'templates/base.html' %}
+
+{% block body %}
+<a class="list" href="{% url 'store:orders' %}" >orders</a> <br>
+<a href="{% url 'store:stocks' %}">stock</a><br>
+<a href="{% url 'store:customers' %}">customer</a><br>
+<a href="{% url 'store:medicines' %}">medicine</a><br>
+<a href="{% url 'store:create_transaction' %}">Add Transaction</a>
+{% endblock body %}

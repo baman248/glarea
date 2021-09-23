@@ -1,0 +1,34 @@
+{% extends 'templates/base.html' %}
+
+{% block header %}
+{% load static %}
+    <link rel="stylesheet" href="{% static 'css/order_table.css' %}">
+
+{% endblock header %}
+{% block body %}
+<h1>Medicine</h1>
+
+<a href="{% url 'store:create_medicine' %}">Create Medicine</a>
+<br>
+{% if all_medicines %}
+<table class="order_table">
+    <tr id="header">
+        <th>Name</th>
+        <th>Price (PHP)</th>
+        <th>Stock (las pinas)</th>
+        <th>Stock (mounti)</th>
+    </tr>
+    {% for medicine in all_medicines %}
+    <tr  onclick="window.location.href='http://localhost:8000/store/medicine_details/{{medicine.id}}';">
+        <th>{{medicine.name}}</th>
+        <th>{{medicine.price_peso}}</th>
+        <th>{{medicine.las_pinas_stock}}</th>
+        <th>{{medicine.monti_stock}}</th>
+    </tr>
+    {% endfor %}
+
+</table>
+{% else %}
+<p>No medicine to show.</p>
+{% endif %}
+{% endblock body %}
