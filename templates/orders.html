@@ -17,7 +17,7 @@
 <h2 class="title">Recent Orders</h2>
 <input id="myInput" type="text" placeholder="Search..">
 {% if all_orders %}
-<table class="order_table" id="myTable">
+<table class="order_table" >
     <thead>
         <tr id="header">
             <th>Medicine</th>
@@ -27,7 +27,7 @@
             <th>Date</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="myTable">
         {% for order in all_orders %}
         <tr  onclick="window.location.href='http://localhost:8000/store/order_details/{{order.id}}';">
             <th>{{order.medicine}}</th>
@@ -46,7 +46,7 @@
                 pending
                 {% endif %}
             </th>
-            <th>{{order.date}}</th>
+            <th>{{order.created_on}}</th>
         </tr>
         {% endfor %}
 

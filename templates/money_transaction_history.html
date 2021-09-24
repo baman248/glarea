@@ -2,15 +2,34 @@
 
 {% block header %}
 {% load static %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="{% static 'css/central.css' %}">
 {% endblock header %}
 
 {% block body %}
 <h1 class="title">Money transaction history</h1>
 <hr>
+<input type="text" id="myInput" placeholder="Search..">
+<div id="myDIV">
 {% for transaction in all_money_transactions %}
-<p> <span style="color: green;">{{transaction.amount}} </span> received from {{transaction.customer.name}}</p>
-<hr>
+    <div style="margin-left: 10px;">
+        <p> {{transaction.amount}} received from {{transaction.customer.name}}</p>
+    </div>
+    <hr>
 {% endfor %}
-
+</div>
 {% endblock body %}
+
+
+{% block scripts %}
+<script>
+    $(document).ready(function(){
+      $("#myInput").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myDIV *").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
+    });
+    </script>
+{% endblock scripts %}

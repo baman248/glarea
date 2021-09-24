@@ -20,7 +20,7 @@
 <h2 class="title">Medicine List</h2>
 {% if all_medicines %}
 <input id="myInput" type="text" placeholder="Search..">
-<table class="order_table" id="myTable">
+<table class="order_table" >
     <thead>
         <tr>
             <th>Name</th>
@@ -31,7 +31,7 @@
     </thead>
     
     {% for medicine in all_medicines %}
-    <tbody>
+    <tbody id="myTable">
         <tr  onclick="window.location.href='http://localhost:8000/store/medicine_details/{{medicine.id}}';">
             <th>{{medicine.name}}</th>
             <th>{{medicine.price_peso}}</th>

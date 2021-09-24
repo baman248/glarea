@@ -50,10 +50,10 @@ class ShippingModeForm(ModelFormCustom):
         fields = ['name']
 
 class DeliveryDoneForm(forms.Form):
-    date = forms.DateField()
-
+    delivery_date = forms.DateField()
+    
 class PaymentDoneForm(forms.Form):
-    date = forms.DateField()
+    payment_date = forms.DateField()
     bank = forms.CharField(max_length=200)
 
 

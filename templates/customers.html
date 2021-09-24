@@ -15,7 +15,7 @@
 <h2 class="title">Customer List</h2>
 {% if all_customers %}
 <input id="myInput" type="text" placeholder="Search..">
-<table class="order_table" id="myTable">
+<table class="order_table" >
     <thead>
         <tr id="header">
             <th>Name</th>
@@ -24,7 +24,7 @@
         </tr>
     </thead>
     {% for customer in all_customers %}
-    <tbody>
+    <tbody id="myTable">
         <tr  onclick="window.location.href='http://localhost:8000/store/customer_details/{{customer.id}}';">
             <th>{{customer.name}}</th>
             <th>{{customer.phone_number1}}</th>

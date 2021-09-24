@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class ShippingMode(models.Model):
     name = models.CharField(max_length=200, unique=True)
     created_by = models.ForeignKey(User, on_delete=models.PROTECT)
-    created_on = models.DateField(auto_now_add=True)
+    created_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return '{}'.format(self.name)
@@ -21,7 +21,7 @@ class Customer(models.Model):
     phone_number3 = models.CharField(validators=[phone_regex], max_length=15, blank=True)
     email = models.EmailField(max_length=50, blank=True)
     is_dr = models.BooleanField(default=False)
-    created_on = models.DateField(auto_now_add=True)
+    created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.PROTECT)
 
     def __str__(self):
@@ -34,7 +34,7 @@ class Medicine(models.Model):
     price_usd = models.FloatField(blank=True)
     india_code = models.FloatField()
     price_dr = models.FloatField(blank=True)
-    created_on = models.DateField(auto_now_add=True)
+    created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.PROTECT)
 
     def __str__(self):
@@ -42,10 +42,10 @@ class Medicine(models.Model):
 
 class Stock(models.Model):
     medicine = models.ForeignKey(Medicine, on_delete=models.PROTECT )
-    location = models.CharField(max_length=100, unique=True)
+    location = models.CharField(max_length=100)
     quantity = models.IntegerField()
     expiry_date = models.DateField()
-    created_on = models.DateField(auto_now_add=True)
+    created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.PROTECT)
 
     def __str__(self) -> str:
@@ -62,7 +62,7 @@ class Order(models.Model):
     payment_date = models.DateField(blank=True,null=True)
     bank = models.CharField(max_length=200, blank=True)
     from_stock = models.ForeignKey(Stock, on_delete=models.PROTECT)
-    created_on = models.DateField(auto_now_add=True)
+    created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.PROTECT)
 
     def __str__(self) -> str:
@@ -73,7 +73,7 @@ class MoneyTransaction(models.Model):
     amount = models.FloatField()
     remarks = models.TextField(max_length=2000)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    created_on = models.DateField(auto_now_add=True)
+    created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.PROTECT)
 
     def __str__(self):
@@ -82,7 +82,7 @@ class MoneyTransaction(models.Model):
 class StockTransaction(models.Model):
     quantity = models.IntegerField()
     stock = models.ForeignKey(Stock, on_delete=models.PROTECT)
-    created_on = models.DateField(auto_now_add=True)
+    created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.PROTECT)
 
     def __str__(self):
@@ -92,7 +92,7 @@ class StockCreateTransaction(models.Model):
     medicine = models.ForeignKey(Medicine, on_delete=models.PROTECT )
     location = models.CharField(max_length=100, unique=True)
     quantity = models.IntegerField()
-    created_on = models.DateField(auto_now_add=True)
+    created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.PROTECT)
 
     def __str__(self):

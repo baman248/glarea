@@ -34,7 +34,7 @@
         <tbody>
         
         {% for stock in medicine.stock_set.all %}
-        <tr>
+        <tr class="active-row">
             <td>Stock ({{stock.location}})</td>
             <td>{{stock.quantity}}</td>
         </tr>

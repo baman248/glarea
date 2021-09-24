@@ -14,20 +14,26 @@
 
 <hr>
 
+<!-- update history -->
 <h2 class="title">Update history</h2>
+
 {% if all_stock_transactions %}
-<input id="myInput" type="text" placeholder="Search..">
-{% for transaction in all_stock_transactions %}
-<p> <span style="color: green;">{{transaction.quantity}} </span>| {{transaction.stock.medicine.name}} at <span style="color: green;">{{transaction.stock.location}} </span></p>
-<hr>
-{% endfor %}
+  <input id="myInput" type="text" placeholder="Search..">
+  <div id="myDIV">
+  {% for transaction in all_stock_transactions %}
+    <div style="margin-left: 10px;">
+      <p> {{transaction.quantity}} | {{transaction.stock.medicine.name}} at {{transaction.stock.location}}| Handled by: {{user}}</p>
+    </div>
+    <hr>
+  {% endfor %}
+  </div>
 {%else%}
-<p>No History found.</p>
+  <p>No History found.</p>
 {% endif %}
 {% endblock body %}
 
 
-
+<!-- Scripts -->
 {% block scripts %}
 <script>
     $(document).ready(function(){
@@ -39,4 +45,14 @@
         });
       });
 </script>
+<script>
+  $(document).ready(function(){
+    $("#myInput").on("keyup", function() {
+      var value = $(this).val().toLowerCase();
+      $("#myDIV *").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+</scrip>
 {% endblock scripts %}

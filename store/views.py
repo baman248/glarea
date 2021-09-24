@@ -1,20 +1,21 @@
-from django.core.checks import messages
 from django.shortcuts import redirect, render
 from store import forms, models
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 # Create your views here.
 @login_required()
 def index(request):
+    messages.success(request, 'welcome to contact.')
     return render(request,template_name="templates/index.html")
 
 @login_required()
 def orders(request):
     
     try:
-        all_orders = models.Order.objects.order_by('created_on')
+        all_orders = models.Order.objects.order_by('-created_on')
     except models.Order.DoesNotExist:
         all_orders = False
 
@@ -23,13 +24,15 @@ def orders(request):
 
 @login_required()
 def stocks(request):
-    all_stock_transactions = models.StockTransaction.objects.all()
+    all_stock_transactions = models.StockTransaction.objects.order_by('-created_on')
     return render(request, 'templates/stocks.html', {'all_stock_transactions':all_stock_transactions})
 
 @login_required()
 def addStocks(request):
     if request.method == "POST":
         form = forms.StockForm(request.POST, creator=request.user)
+        print(request.POST)
+        print(form.is_valid())
         if form.is_valid():
             medicine = form.cleaned_data.get('medicine')
             location = form.cleaned_data.get('location')
@@ -37,6 +40,7 @@ def addStocks(request):
             stock_create_transaction = models.StockCreateTransaction(medicine = medicine,location = location, quantity = quantity, created_by=request.user)
             stock_create_transaction.save()
             form.save()
+            messages.success(request, "Stock added successfully")
             return redirect('store:stocks')
 
     all_medicine = models.Medicine.objects.all()
@@ -44,7 +48,7 @@ def addStocks(request):
 
 @login_required()
 def addStockHistory(request):
-    all_stock_transactions = models.StockCreateTransaction.objects.all()
+    all_stock_transactions = models.StockCreateTransaction.objects.order_by('-created_on')
     return render(request, 'templates/add_stock_history.html',{'all_stock_transactions':all_stock_transactions} )
 
 @login_required()
@@ -57,6 +61,7 @@ def updateStocks(request):
             stock = form.cleaned_data['stock']
             stock.quantity += quantity
             stock.save()
+            messages.success(request, "Stock updated successfully")
             return redirect('store:stocks')
 
     all_stocks = models.Stock.objects.all()
@@ -67,7 +72,7 @@ def updateStocks(request):
 @login_required()
 def medicines(request):
     try:
-        all_medicines = models.Medicine.objects.all()
+        all_medicines = models.Medicine.objects.order_by('-created_on')
     except models.Medicine.DoesNotExist:
         all_medicines = False
     return render(request, 'templates/medicines.html',{'all_medicines':all_medicines})
@@ -82,7 +87,7 @@ def medicineDetails(request, pk):
 
 @login_required()
 def customers(request):
-    all_customers = models.Customer.objects.all()
+    all_customers = models.Customer.objects.order_by('-created_on')
     return render(request, template_name='templates/customers.html',context={'all_customers':all_customers})
 
 @login_required()
@@ -112,7 +117,9 @@ def createMedicine(request):
         # check whether it's valid:
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('store:index'))
+            name = form.cleaned_data.get('name')
+            messages.success(request, "{} is created successfully".format(name))
+            return HttpResponseRedirect(reverse('store:medicines'))
 
     # if a GET (or any other method) we'll create a blank form
     else:
@@ -145,7 +152,7 @@ def addOrder(request):
             customer.save()
             medicine.save()
             stock.save()
-            return HttpResponseRedirect(reverse('store:index'))
+            return HttpResponseRedirect(reverse('store:orders'))
     # if a GET (or any other method) we'll create a blank form
     all_medicines = models.Medicine.objects.all()
     all_shipping_modes = models.ShippingMode.objects.all()
@@ -186,20 +193,26 @@ def orderDetails(request, pk):
         if not order.delivery_done:
             delivery_form = forms.DeliveryDoneForm()
         if request.method == 'POST':
+            print("it's a post reqeust")
             if request.POST['form_type'] == 'delivery' and not order.delivery_done:
-                delivery_form = forms.DeliveryDoneForm(request.POST, creator=request.user)
+                delivery_form = forms.DeliveryDoneForm(request.POST)
+                print(request.POST)
+                print(delivery_form.is_valid())
                 if delivery_form.is_valid():
                     order.delivery_date = delivery_form.cleaned_data.get('delivery_date')
                     order.delivery_done = True
                     order.save()
+                    messages.success(request, "Order updated successfully")
 
             if request.POST['form_type'] == 'payment' and not order.payment_done:
-                payment_form = forms.PaymentDoneForm(request.POST, creator=request.user)
+                payment_form = forms.PaymentDoneForm(request.POST)
+                print(payment_form.is_valid())
                 if payment_form.is_valid():
                     order.payment_date = payment_form.cleaned_data.get('payment_date')
                     order.payment_done = True
                     order.bank = payment_form.cleaned_data.get('bank')
                     order.save()
+                    messages.success(request, "Order updated successfully")
 
     except models.Order.DoesNotExist:
         order = False
@@ -228,6 +241,7 @@ def createTransaction(request):
             amount = float(form.cleaned_data.get('amount'))
             customer.balance += amount
             customer.save()
+            messages.success(request, "Transaction of amount {}, is created successfully".format(amount))
             return HttpResponseRedirect(reverse('store:index'))
     # if a GET (or any other method) we'll create a blank form
     all_customers = models.Customer.objects.all()
@@ -248,7 +262,9 @@ def createCustomer(request):
         print(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('store:index'))
+            name = form.cleaned_data.get('name')
+            messages.success(request, "{} is created successfully".format(name))
+            return HttpResponseRedirect(reverse('store:customers'))
 
     # if a GET (or any other method) we'll create a blank form
     else:
