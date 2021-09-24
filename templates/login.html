@@ -1,15 +1,38 @@
-{% extends 'templates/base.html' %}
-{% block body %}
-{% for message in messages %}
-    <p>{{message}}</p>
-{% endfor %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/form.css' %}">
+    <link rel="stylesheet" href="{% static 'css/central.css' %}">
+    
 
-<form method="POST" action="{% url 'staff:login' %}">
-    {% csrf_token %}
-    <label for="username">Username</label>
-    <input type="text" name="username" id="username">
-    <label for="password">Password</label>
-    <input type="password" name="password" id="password">
-    <input type="submit">
-</form>
-{% endblock body %}
+</head>
+<body>
+    {% for message in messages %}
+    <p>{{message}}</p>
+    {% endfor %}
+    <h1 class="title">Login</h1>
+    <section class="form">
+        <div class="container">
+            <form action="{% url 'staff:login' %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password">
+                </div>
+                <input class="submit_button_small" type="submit" value="Submit">
+            
+            </form>
+    
+        </div>
+    </section>
+</body>
+</html>

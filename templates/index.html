@@ -1,9 +1,14 @@
 {% extends 'templates/base.html' %}
 
+
 {% block body %}
-<a class="list" href="{% url 'store:orders' %}" >orders</a> <br>
+
+<!-- <a class="list" href="{% url 'store:orders' %}" >orders</a> <br>
 <a href="{% url 'store:stocks' %}">stock</a><br>
 <a href="{% url 'store:customers' %}">customer</a><br>
 <a href="{% url 'store:medicines' %}">medicine</a><br>
-<a href="{% url 'store:create_transaction' %}">Add Transaction</a>
+<a href="{% url 'store:create_transaction' %}">Add Transaction</a><br>
+<a href="{% url 'store:money_transaction_history' %}">Transaction History</a> -->
+<h1 class="title">Welcome to database!</h1>
+<p class="title">Use buttons in navigation bar to go to other pages.</p>
 {% endblock body %}

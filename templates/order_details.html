@@ -17,23 +17,20 @@
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/form.css' %}">
   <link rel="stylesheet" href="{% static 'css/detail_table.css' %}">
+  <link rel="stylesheet" href="{% static 'css/central.css' %}">
 {% endblock header %}
 
 {% block body %}
-<h1 style="margin: 5px auto;">Order Details</h1>
+<h1 class="title">Order Details</h1>
 {% if order %}
 <table class="content-table">
     <thead>
       <tr>
-        <th>Rank</th>
-        <th>Name</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
         <td>Medicine</td>
         <td>{{order.medicine}}</td>
       </tr>
+    </thead>
+    <tbody>
       <tr class="active-row">
         <td>Delivery</td>
         <td>
@@ -87,21 +84,13 @@
             {{order.shipping_mode}}
         </td>
       </tr>
-      <tr>
-        <td>Customer</td>
-        <td>
-            {{order.customer}}
-        </td>
-      </tr>
 
     </tbody>
   </table>
-{% if not order.payment_done and order.delivery_done %}
-<h2>Second form</h2>
-{% endif %}
 
 {% if not order.payment_done %}
-<section class="outer_container">
+<hr>
+<section class="form">
     <div class="container">
         <form action="{% url 'store:order_details' 1%}" method="POST">
             {% csrf_token %}
@@ -109,7 +98,11 @@
                 <label for="payment_date">Payment Date</label>
                 <input type="date" name="payment_date" id="payment_date">
                 <input type="hidden" name="form_type" value="payment">
-        
+            </div>
+
+            <div class="form-group">
+              <label for="bank">Bank Name</label>
+                <input type="text" id="bank" name="bank">
             </div>
             <input class="submit_button_small" type="submit" value="Payment Done">
         
@@ -120,7 +113,8 @@
 {% endif %}
 
 {% if not order.delivery_done %}
-<section class="outer_container">
+<hr>
+<section class="form">
     <div class="container">
         <form action="{% url 'store:order_details' 1 %}" method="POST">
             {% csrf_token %}

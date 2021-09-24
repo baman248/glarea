@@ -1,0 +1,16 @@
+{% extends 'templates/base.html' %}
+
+{% block header %}
+{% load static %}
+    <link rel="stylesheet" href="{% static 'css/central.css' %}">
+{% endblock header %}
+
+{% block body %}
+<h1 class="title">Stock Create history</h1>
+<hr>
+{% for transaction in all_stock_transactions %}
+<p> <span style="color: green;">{{transaction.quantity}} </span> {{transaction.medicine.name}}</p>
+<hr>
+{% endfor %}
+
+{% endblock body %}

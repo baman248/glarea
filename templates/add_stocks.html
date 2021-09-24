@@ -1,14 +1,5 @@
-{% extends 'templates/base.html' %}
-
-{% block body %}
-{% for message in messages %}
-    <p>{{message}}</p>
-
-{% endfor %}
 
 
-
-{% endblock body %}
 {% extends 'templates/base.html' %}
 
 {% block header %}
@@ -27,32 +18,42 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css" integrity="sha512-yVvxUQV0QESBt1SyZbNJMAwyKvFTLMyXSyBHDO4BG5t7k/Lw34tyqlSDlKIrIENIzCl+RVUNjmCPG+V/GMesRw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/form.css' %}" />
+<link rel="stylesheet" href="{% static 'css/central.css' %}" />
 {% endblock header %}
 {% block body %}
-<h1>Create Transaction</h1>
+
+{% for message in messages %}
+    <p>{{message}}</p>
+
+{% endfor %}
+<h1 class="title">Add Stock</h1>
 <section class="form">
     <div class="container">
-        <form action="{% url 'store:create_transaction' %}" method="post">
+        <form action="{% url 'store:add_stocks' %}" method="post">
             {% csrf_token %}
             <div class="form-group">
-                <label for="id_amount">Amount:</label> 
-                <input type="number" name="amount" step="any" required id="id_amount">
+                <label for="id_location">Location</label> 
+                <input type="text" name="location" step="any" required id="id_location">
             </div>
             
             <div class="form-group">
-                <label for="id_remarks">Remarks:</label> 
-                <textarea name="remarks" cols="40" rows="10" maxlength="2000" required id="id_remarks"></textarea>
-            </div>
-            
-            <div class="form-group">
-                <label for="id_customer">Customer:</label> 
-                <select name="customer" required id="id_customer" class="chosen">
-                    <option value="" selected>Select customer</option>
-                    {% for medicine in all_medicines %}
+                <label for="id_medicine">Medicine:</label> 
+                <select name="medicine" required id="id_medicine" class="chosen">
+                    <option value="" selected>Select Medicine</option>
+                    {% for medicine in all_medicine %}
                     <option value="{{medicine.id}}">{{medicine.name}}</option>             
                     {% endfor %}
                 </select>    
             </div>
+            <div class="form-group">
+                <label for="id_quantity">Quantity</label> 
+                <input type="number" name="quantity" step="any" required id="id_quantity">
+            </div>
+            <div class="form-group">
+                <label for="id_expiry_date">Expiration Date</label> 
+                <input type="date" name="expiry_date"  required id="id_expiry_date">
+            </div>
+
             
             <input class="submit_button_small" type="submit" value="Submit">
         

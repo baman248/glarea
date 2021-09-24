@@ -16,12 +16,13 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css" integrity="sha512-yVvxUQV0QESBt1SyZbNJMAwyKvFTLMyXSyBHDO4BG5t7k/Lw34tyqlSDlKIrIENIzCl+RVUNjmCPG+V/GMesRw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/detail_table.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/central.css' %}"  />
 
 
 {% endblock header %}
 
 {% block body %}
-<h1 style="margin: 5px auto;">Medicine Details</h1>
+<h1 class="title">Medicine Details</h1>
 {% if medicine %}
     <table class="content-table">
         <thead>
@@ -31,14 +32,19 @@
         </tr>
         </thead>
         <tbody>
+        
+        {% for stock in medicine.stock_set.all %}
         <tr>
-            <td>Stock (Las Pinas)</td>
-            <td>{{medicine.las_pinas_stock}}</td>
+            <td>Stock ({{stock.location}})</td>
+            <td>{{stock.quantity}}</td>
         </tr>
         <tr>
-            <td>Stock (Munti)</td>
-            <td>{{medicine.monti_stock}}</td>
+            <td>Expiry ({{stock.location}})</td>
+            <td>{{stock.expiry_date}}</td>
         </tr>
+
+        {% endfor %}
+        
         <tr>
             <td>Price (PHP) </td>
             <td>{{medicine.price_peso}}</td>

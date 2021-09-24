@@ -6,19 +6,50 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/central.css' %}">
     {% block header%}
 
     {% endblock header%}
-<style>
-    {% block styles %}
-    {% endblock%}
-
-</style>
 </head>
 <body>
+    <nav class="navbar">
+        <div class="brand-title">Brand Name</div>
+        <a href="#" class="toggle-button">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </a>
+        <div class="navbar-links">
+          <ul>
+            <li><a href="{% url 'store:orders' %}">Orders</a></li>
+            <li><a href="{% url 'store:customers' %}">Customers</a></li>
+            <li><a href="{% url 'store:stocks' %}">Stock</a></li>
+            <li><a href="{% url 'store:medicines' %}">Medicines</a></li>
+            <li><a href="{% url 'store:create_transaction' %}">Transactions</a></li>
+            <li><a href="{% url 'staff:logout' %}">Logout</a></li>
+          </ul>
+        </div>
+    </nav>
+    {% for message in messages %}
+    <p>{{message}}</p>
+    {% endfor %}
+    
+
     {% block body %}
     {% endblock body%}
 </body>
+<script>
+    const toggleButton = document.getElementsByClassName('toggle-button')[0]
+    const navbarLinks = document.getElementsByClassName('navbar-links')[0]
+
+    toggleButton.addEventListener('click', () => {
+    navbarLinks.classList.toggle('active')
+    })
+</script>
 {% block scripts %}
 
 {% endblock scripts %}

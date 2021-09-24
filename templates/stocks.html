@@ -1,7 +1,42 @@
 {% extends 'templates/base.html' %}
 
-{% block body %}
-<h1>Orders</h1>
-<a href="{% url 'store:add_stocks' %}">Add Stocks</a>
+{% block header %}
+{%load static %}
+<link rel="stylesheet" href="{% static 'css/central.css' %}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% endblock header %}
 
+{% block body %}
+<h1 class="title">Stocks</h1>
+<a class="link_button" href="{% url 'store:update_stocks' %}">Update Stocks</a>
+<a class="link_button" href="{% url 'store:add_stock_history' %}">History</a>
+<a class="link_button" href="{% url 'store:add_stocks' %}">Add Stocks</a>
+
+<hr>
+
+<h2 class="title">Update history</h2>
+{% if all_stock_transactions %}
+<input id="myInput" type="text" placeholder="Search..">
+{% for transaction in all_stock_transactions %}
+<p> <span style="color: green;">{{transaction.quantity}} </span>| {{transaction.stock.medicine.name}} at <span style="color: green;">{{transaction.stock.location}} </span></p>
+<hr>
+{% endfor %}
+{%else%}
+<p>No History found.</p>
+{% endif %}
 {% endblock body %}
+
+
+
+{% block scripts %}
+<script>
+    $(document).ready(function(){
+        $("#myInput").on("keyup", function() {
+          var value = $(this).val().toLowerCase();
+          $("#myTable tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+          });
+        });
+      });
+</script>
+{% endblock scripts %}

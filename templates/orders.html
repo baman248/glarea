@@ -2,16 +2,22 @@
 
 {% block header %}
 {% load static %}
-    <link rel="stylesheet" href="{% static 'css/order_table.css' %}">
+    <link rel="stylesheet" href="{% static 'css/central.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 {% endblock header %}
-{% block body %}
-<h1>Orders</h1>
-<a href="{% url 'store:add_order' %}">Add Order</a>
 
-<h2>Recent Orders</h2>
+
+
+
+{% block body %}
+<h1 class="title">Orders</h1>
+<a class="link_button" href="{% url 'store:add_order' %}">Add Order</a>
 <hr>
+
+<h2 class="title">Recent Orders</h2>
+<input id="myInput" type="text" placeholder="Search..">
 {% if all_orders %}
-<table class="order_table">
+<table class="order_table" id="myTable">
     <thead>
         <tr id="header">
             <th>Medicine</th>
@@ -52,4 +58,19 @@
 <p>No orders to show.</p>
 {% endif %}
 {% endblock body %}
+
+
+
+{% block scripts %}
+<script>
+    $(document).ready(function(){
+        $("#myInput").on("keyup", function() {
+          var value = $(this).val().toLowerCase();
+          $("#myTable tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+          });
+        });
+      });
+</script>
+{% endblock scripts %}
 

@@ -1,6 +1,7 @@
 {% extends 'templates/base.html' %}
 
 {% block header %}
+{% load static %}
 <script
   src="https://code.jquery.com/jquery-3.6.0.min.js"
   integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
@@ -14,103 +15,15 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js" integrity="sha512-rMGGF4wg1R73ehtnxXBt5mbUfN9JUJwbk21KMlnLZDJh7BkPmeovBuddZCENJddHYYMkCh9hPFnPmS9sspki8g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css" integrity="sha512-yVvxUQV0QESBt1SyZbNJMAwyKvFTLMyXSyBHDO4BG5t7k/Lw34tyqlSDlKIrIENIzCl+RVUNjmCPG+V/GMesRw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <style>
-    section {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-      }
-      .containe {
-        width: 90%;
-        max-width: 500px;
-        margin: 0 auto;
-        padding: 20px;
-        box-shadow: 0px 0px 20px #00000010;
-        background-color: white;
-        border-radius: 8px;
-        margin-bottom: 20px;
-      }
-      .form-group {
-        width: 100%;
-        margin-top: 20px;
-        font-size: 20px;
-      }
-      .form-group input,
-      .form-group textarea,
-      .form-group select {
-        width: 100%;
-        height: 20px;
-        padding: 5px;
-        font-size: 18px;
-        border: 1px solid rgba(128, 128, 128, 0.199);
-        margin-top: 5px;
-      }
-      
-      #massage {
-        resize: vertical;
-        height: 3em;
-      }
-      #submit_button {
-        width: 100%;
-        border: none;
-        outline: none;
-        padding: 20px;
-        font-size: 24px;
-        border-radius: 8px;
-        font-family: "Montserrat";
-        color: black;
-        text-align: center;
-        cursor: pointer;
-        margin-top: 10px;
-        background-color: #16A085;
-        transition: 0.3s ease background-color;
-      }
-      #submit_button:hover {
-        background-color: rgb(214, 226, 236);
-      }
-      #status {
-        width: 90%;
-        max-width: 500px;
-        text-align: center;
-        padding: 10px;
-        margin: 0 auto;
-        border-radius: 8px;
-      }
-      #status.success {
-        background-color: rgb(211, 250, 153);
-        animation: status 4s ease forwards;
-      }
-      #status.error {
-        background-color: rgb(250, 129, 92);
-        color: white;
-        animation: status 4s ease forwards;
-      }
-      @keyframes status {
-        0% {
-          opacity: 1;
-          pointer-events: all;
-        }
-        90% {
-          opacity: 1;
-          pointer-events: all;
-        }
-        100% {
-          opacity: 0;
-          pointer-events: none;
-        }
-      }
-      
-
-  </style>
+  <link rel="stylesheet" href="{% static 'css/central.css' %}">
+  <link rel="stylesheet" href="{% static 'css/form.css' %}">
 {% endblock header %}
 
 {% block body %}
 
-<h2>Second form</h2>
-<section>
-    <div class="containe">
+<h1 class="title">Create Order</h1>
+<section class="form">
+    <div class="container">
         <form action="{% url 'store:add_order' %}" method="POST">
             {% csrf_token %}
             <div class="form-group">
@@ -145,14 +58,14 @@
             </div>
             <div class="form-group">
                 <label for="from_stock">Store</label>
-                <select name="location" id="location" class="chosen" required>
+                <select name="from_stock" id="from_stock" class="chosen" required>
                     <option value="" selected>Select stock</option>
                     {% for key, value in all_stocks.items %}
                     <option value="{{value}}">{{key}}</option>
                     {% endfor %}
                 </select>
             </div>
-            <input id="submit_button" type="submit" value="Submit">
+            <input class="submit_button_small" type="submit" value="Submit">
         
         </form>
 

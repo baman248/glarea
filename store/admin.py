@@ -5,5 +5,7 @@ admin.site.register(models.Order)
 admin.site.register(models.Customer)
 admin.site.register(models.MoneyTransaction)
 admin.site.register(models.Medicine)
+admin.site.register(models.Stock)
+admin.site.register(models.StockTransaction)
 
 # Register your models here.

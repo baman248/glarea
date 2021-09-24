@@ -2,33 +2,70 @@
 
 {% block header %}
 {% load static %}
-    <link rel="stylesheet" href="{% static 'css/order_table.css' %}">
+    <link rel="stylesheet" href="{% static 'css/central.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
 
+    </style>
 {% endblock header %}
+
+
+
 {% block body %}
-<h1>Medicine</h1>
+<h1 class="title">Medicine</h1>
 
-<a href="{% url 'store:create_medicine' %}">Create Medicine</a>
+<a class="link_button" href="{% url 'store:create_medicine' %}">Create Medicine</a>
 <br>
+<hr>
+<h2 class="title">Medicine List</h2>
 {% if all_medicines %}
-<table class="order_table">
-    <tr id="header">
-        <th>Name</th>
-        <th>Price (PHP)</th>
-        <th>Stock (las pinas)</th>
-        <th>Stock (mounti)</th>
-    </tr>
+<input id="myInput" type="text" placeholder="Search..">
+<table class="order_table" id="myTable">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price (PHP)</th>
+            <th>Stock </th>
+            <th>Stock </th>
+        </tr>
+    </thead>
+    
     {% for medicine in all_medicines %}
-    <tr  onclick="window.location.href='http://localhost:8000/store/medicine_details/{{medicine.id}}';">
-        <th>{{medicine.name}}</th>
-        <th>{{medicine.price_peso}}</th>
-        <th>{{medicine.las_pinas_stock}}</th>
-        <th>{{medicine.monti_stock}}</th>
-    </tr>
+    <tbody>
+        <tr  onclick="window.location.href='http://localhost:8000/store/medicine_details/{{medicine.id}}';">
+            <th>{{medicine.name}}</th>
+            <th>{{medicine.price_peso}}</th>
+            {% if medicine.stock_set.all.0 %}
+            <th>{{medicine.stock_set.all.0.quantity}} at {{medicine.stock_set.all.0.location}} </th>
+            {% else %}
+            <th>-</th>
+            {% endif %}
+            {% if medicine.stock_set.all.1 %}
+            <th>{{medicine.stock_set.all.1.quantity}} at {{medicine.stock_set.all.1.location}}</th>
+            {% else %}
+            <th>-</th>
+            {% endif %}
+        </tr>
+    </tbody>
     {% endfor %}
-
 </table>
 {% else %}
 <p>No medicine to show.</p>
 {% endif %}
 {% endblock body %}
+
+
+
+
+{% block scripts %}
+<script>
+    $(document).ready(function(){
+        $("#myInput").on("keyup", function() {
+          var value = $(this).val().toLowerCase();
+          $("#myTable tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+          });
+        });
+      });
+</script>
+{% endblock scripts %}

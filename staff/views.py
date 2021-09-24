@@ -30,7 +30,7 @@ def loginPage(request):
             print(user, "is loged in" )
             return redirect('store:index')
         else:
-            messages(request,"Username and password does not match")
+            messages.error(request,"Username and password does not match")
     
     return render(request, 'templates/login.html')
 

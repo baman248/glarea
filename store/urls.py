@@ -14,7 +14,10 @@ urlpatterns = [
     path('create_transaction/', views.createTransaction, name='create_transaction'),
     path('customer_details/<int:pk>',views.customerDetails, name='customer_details'),
     path('create_medicine/', views.createMedicine, name='create_medicine'),
+    path('update_stocks/', views.updateStocks, name='update_stocks'),
     path('add_stocks/', views.addStocks, name='add_stocks'),
+    path('add_stock_history', views.addStockHistory, name='add_stock_history'),
     path('order_details/<int:pk>',views.orderDetails, name='order_details'),
-    path('medicine_details/<int:pk>', views.medicineDetails, name='medicine_details')
+    path('medicine_details/<int:pk>', views.medicineDetails, name='medicine_details'),
+    path('money_transaction_history',views.moneyTransactionHistory, name='money_transaction_history'),
 ]
